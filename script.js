@@ -69,6 +69,40 @@ window.addEventListener('scroll', updateNav, { passive: true });
 window.addEventListener('resize', updateNav);
 updateNav();
 
+// ===== Scroll'da paydo bo'lish =====
+// Sarlavhalar va kartalar ekranga kirganda pastdan yengil ko'tarilib chiqadi.
+// Harakatni o'chirib qo'yganlar va eski brauzerlar uchun hech narsa yashirilmaydi.
+const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!calm && 'IntersectionObserver' in window) {
+  const items = document.querySelectorAll(
+    '.sec-head > *, .contact h2, .cards > *, .faq > details, .more'
+  );
+  const seen = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      seen.unobserve(el);
+      el.classList.add('is-visible');
+      // Effekt tugagach, kartaning o'z hover effekti xalaqitsiz ishlashi uchun tozalaymiz
+      el.addEventListener('transitionend', function done(e) {
+        if (e.target !== el || e.propertyName !== 'transform') return;
+        el.removeEventListener('transitionend', done);
+        el.classList.remove('reveal', 'is-visible');
+        el.style.removeProperty('--d');
+      });
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+
+  items.forEach(el => {
+    // Bir qatordagi kartalar birin-ketin chiqadi
+    const group = el.parentElement.matches('.cards, .faq, .sec-head')
+      ? [...el.parentElement.children].indexOf(el) : 0;
+    if (group) el.style.setProperty('--d', (group * 0.1) + 's');
+    el.classList.add('reveal');
+    seen.observe(el);
+  });
+}
+
 // ===== Til: UZ | RU =====
 // O'zbekcha matn HTML ichida turadi, bu yerda faqat ruscha tarjima.
 const ru = {
@@ -96,12 +130,14 @@ const ru = {
   'svc.essay': 'Реферат',
   'svc.diploma': 'Дипломная работа',
   'svc.slides': 'Слайды',
+  'services.tag': '01 · Направления',
   'services.title': 'Услуги',
   'services.sub': 'Чем я могу помочь',
   'card.article': 'Подготовка, редактирование и оформление статей для журналов и конференций по требованиям.',
   'card.diss': 'Составление, оформление и консультации по магистерским и докторским диссертациям.',
   'card.indep': 'Помощь в качественном и своевременном выполнении рефератов, курсовых и самостоятельных работ.',
   'nav.works': 'Работы',
+  'works.tag': '02 · Примеры',
   'works.title': 'Мои работы',
   'works.sub': 'Примеры выполненных работ',
   'work1.tag': 'Слайды · на русском',
@@ -114,6 +150,7 @@ const ru = {
   'work3.title': '8 презентаций в одном заказе',
   'work3.text': 'Бухгалтерия, налог на прибыль, финансовые ресурсы, аудиторская выборка и другие темы.',
   'nav.reviews': 'Отзывы',
+  'reviews.tag': '03 · Отзывы',
   'reviews.title': 'Отзывы клиентов',
   'reviews.sub': 'Из переписки в Telegram',
   'review1.text': 'Вау, отлично получилось, большое спасибо! Удачи в работе.',
@@ -124,6 +161,7 @@ const ru = {
   'review3.who': 'Студент · слайды',
   'reviews.more': 'Все отзывы в Telegram →',
   'nav.faq': 'Вопросы',
+  'faq.tag': '04 · Вопросы',
   'faq.title': 'Вопросы и ответы',
   'faq.sub': 'Часто задаваемые вопросы',
   'faq1.q': 'Сколько времени занимает работа?',
