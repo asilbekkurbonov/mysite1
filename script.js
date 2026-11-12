@@ -40,8 +40,16 @@ const navSections = navLinks
   .map(a => document.querySelector(a.getAttribute('href')))
   .filter(Boolean);
 
+// Telefonda: menyu qatorining davomi bo'lsa, o'ng chet so'nib turadi
+function navHint() {
+  navList.classList.toggle('more-right',
+    navList.scrollLeft + navList.clientWidth < navList.scrollWidth - 4);
+}
+navList.addEventListener('scroll', navHint, { passive: true });
+
 function updateNav() {
   nav.classList.toggle('scrolled', window.scrollY > 8);
+  navHint();
 
   // Ekranning yuqori uchdan biridan o'tgan oxirgi bo'lim — faol bo'lim
   const line = window.innerHeight / 3;

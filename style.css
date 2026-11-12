@@ -503,11 +503,23 @@ footer { text-align: center; color: var(--muted); font-size: 14px; padding: 32px
   .nav, .nav.scrolled { padding-bottom: 0; }
   .nav-inner { flex-wrap: wrap; gap: 6px 12px; justify-content: space-between; }
   .nav-links {
-    order: 3; width: 100%; margin: 0 -20px; padding: 6px 20px 10px;
+    order: 3; width: 100%; margin: 0 -20px; padding: 0 20px 2px;
     flex: 0 0 calc(100% + 40px);
     gap: 22px; overflow-x: auto; scrollbar-width: none;
   }
   .nav-links::-webkit-scrollbar { display: none; }
+  /* Barmoq uchun qulay balandlik: 44px */
+  .nav-links a { padding: 10px 0; }
+  /* "Davomi bor" ishorasi: qator surilmagan bo'lsa, o'ng chet so'nadi */
+  .nav-links.more-right {
+    -webkit-mask-image: linear-gradient(to right, #000 82%, transparent);
+    mask-image: linear-gradient(to right, #000 82%, transparent);
+  }
+  /* Kichik tugmalarning bosiladigan maydoni ko'rinishidan kattaroq */
+  .logo, .lang-switch button, .theme-toggle, .btn-link, .more a { position: relative; }
+  .logo::after, .lang-switch button::after, .theme-toggle::after, .btn-link::after, .more a::after {
+    content: ""; position: absolute; inset: -8px -3px;
+  }
   section[id] { scroll-margin-top: 112px; }
   .faq-layout { grid-template-columns: 1fr; gap: 0; }
   section.no-top[id] { scroll-margin-top: 136px; }
@@ -534,8 +546,13 @@ footer { text-align: center; color: var(--muted); font-size: 14px; padding: 32px
   .lang-switch button { padding: 8px 9px; font-size: 12px; }
   .theme-toggle { width: 36px; height: 36px; }
   .stats { flex-wrap: nowrap; }
-  .stat { padding: 2px 12px; }
+  .stat { padding: 2px 12px; min-width: 0; }
   .stat strong { font-size: 21px; }
-  .stat span { font-size: 12.5px; white-space: nowrap; }
+  /* Uzun yozuv (ayniqsa ruscha) ekrandan chiqmasin: kerak bo'lsa ikki qatorga o'tadi */
+  .stat span { font-size: 13px; line-height: 1.35; }
+  /* "Ishlarim": rasm o'rni telefonda pastroq, kartalar ixchamroq */
+  .work-thumb { aspect-ratio: 5 / 2; }
+  .work-thumb svg { width: 40px; height: 40px; }
+  .work-tag { font-size: 13px; }
   .stat-rating .stars { font-size: 15px; letter-spacing: 1px; line-height: 1.68; }
 }
