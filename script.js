@@ -97,7 +97,7 @@ if (!calm && 'IntersectionObserver' in window) {
     // Bir qatordagi kartalar birin-ketin chiqadi
     const group = el.parentElement.matches('.cards, .faq, .sec-head')
       ? [...el.parentElement.children].indexOf(el) : 0;
-    if (group) el.style.setProperty('--d', (group * 0.1) + 's');
+    if (group) el.style.setProperty('--d', (group * 0.07) + 's');
     el.classList.add('reveal');
     seen.observe(el);
   });
