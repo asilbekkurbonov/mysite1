@@ -1,0 +1,23 @@
+# Maxfiy sozlamalar
+.env
+.env.*
+
+# Windows keraksiz fayllari
+Thumbs.db
+desktop.ini
+
+# macOS keraksiz fayllari
+.DS_Store
+
+# Kod muharrirlari sozlamalari
+.vscode/
+.idea/
+.claude/
+
+# Vaqtinchalik fayllar
+*.log
+*.tmp
+*~
+
+# Netlify sozlamalari
+.netlify/

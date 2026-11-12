@@ -1,0 +1,379 @@
+/* ===== Ranglar: yorug' rejim ===== */
+:root {
+  --blue: #4a90e2;
+  --blue-dark: #3a7bd0;
+  --blue-soft: #eaf3fd;
+  --text: #2b2f3a;
+  --muted: #7a7670;
+  --line: #efe7dc;
+  --ring: #ddd5ca;
+  --bg: #fffbf5;
+  --card: #ffffff;
+  --surface: #ffffff;
+  --ink: #1b1f27;
+  --ink-text: #ffffff;
+  --band: #1b1f27;
+  --tag-border: #c9def5;
+  --card-hover: #b7d3f2;
+  --card-shadow: rgba(120, 90, 50, .08);
+  --contact-from: #5b9de6;
+  --contact-to: #7fb3ec;
+  --font-head: "Outfit", "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+
+/* ===== Ranglar: qorong'i rejim ===== */
+:root[data-theme="dark"] {
+  --blue: #6aa8ef;
+  --blue-dark: #82b7f2;
+  --blue-soft: #1e2a3a;
+  --text: #ebe8e4;
+  --muted: #a8a29a;
+  --line: #2c3038;
+  --ring: #3a3f48;
+  --bg: #16181d;
+  --card: #1e2127;
+  --surface: #1e2127;
+  --ink: #ebe8e4;
+  --ink-text: #16181d;
+  --band: #0c0e12;
+  --tag-border: #2e4560;
+  --card-hover: #3b5a80;
+  --card-shadow: rgba(0, 0, 0, .35);
+  --contact-from: #2f5f99;
+  --contact-to: #3f74b2;
+  color-scheme: dark;
+}
+/* Tanlov saqlanmagan bo'lsa, qurilma sozlamasiga qarab */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --blue: #6aa8ef;
+    --blue-dark: #82b7f2;
+    --blue-soft: #1e2a3a;
+    --text: #ebe8e4;
+    --muted: #a8a29a;
+    --line: #2c3038;
+    --ring: #3a3f48;
+    --bg: #16181d;
+    --card: #1e2127;
+    --surface: #1e2127;
+    --ink: #ebe8e4;
+    --ink-text: #16181d;
+    --band: #0c0e12;
+    --tag-border: #2e4560;
+    --card-hover: #3b5a80;
+    --card-shadow: rgba(0, 0, 0, .35);
+    --contact-from: #2f5f99;
+    --contact-to: #3f74b2;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background .25s, color .25s;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+h1, h2, h3, .logo { font-family: var(--font-head); }
+/* Kirill harflari Manrope'da biroz ingichka, shuni tenglashtiramiz */
+html[lang="ru"] h1, html[lang="ru"] h2, html[lang="ru"] h3 { font-weight: 700; }
+
+/* ===== Menyu ===== */
+.nav { padding: 22px 0; }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 21px; font-weight: 700; color: var(--text); text-decoration: none;
+}
+.logo-mark {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--blue); color: #fff; font-size: 14px; letter-spacing: .5px;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.nav-right { display: flex; align-items: center; gap: 28px; }
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+.nav-links li { display: flex; }
+.nav-links a {
+  display: inline-flex; align-items: center; gap: 8px;
+  line-height: 24px;
+  color: var(--muted); text-decoration: none; font-size: 15px; transition: color .15s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--text); font-weight: 600; }
+.nav-links a.active::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--blue);
+}
+
+/* Til almashtirgich: UZ | RU */
+.lang-switch {
+  display: flex; padding: 3px; gap: 2px;
+  border: 1px solid var(--ring); border-radius: 999px;
+  background: var(--surface);
+}
+.lang-switch button {
+  border: 0; background: transparent; cursor: pointer;
+  font: 600 13px/1 var(--font-head); letter-spacing: .5px;
+  color: var(--muted);
+  padding: 9px 12px; border-radius: 999px;
+  transition: background .15s, color .15s;
+}
+.lang-switch button:hover { color: var(--text); }
+.lang-switch button[aria-pressed="true"] { background: var(--blue); color: #fff; }
+.nav-right .theme-toggle { margin-left: -16px; }
+
+/* Rejim almashtirish tugmasi */
+.theme-toggle {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--surface); color: var(--blue);
+  border: 1px solid var(--ring);
+  cursor: pointer;
+  transition: transform .15s, background .25s;
+}
+.theme-toggle:hover { transform: scale(1.08); }
+.theme-toggle svg { width: 18px; height: 18px; }
+.theme-toggle .sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .sun { display: block; }
+:root[data-theme="dark"] .theme-toggle .moon { display: none; }
+
+/* ===== Hero ===== */
+.hero { padding: 48px 0 56px; overflow-x: clip; }
+.hero-grid {
+  display: grid; grid-template-columns: 1.1fr .9fr;
+  gap: 40px; align-items: center;
+}
+
+.hello {
+  position: relative; display: inline-block;
+  border: 1.5px solid var(--ink);
+  padding: 6px 14px; margin: 0 0 26px 5px;
+  font-weight: 600; font-size: 15px;
+}
+/* Burchakdagi kichik kvadratchalar */
+.hello::before {
+  content: ""; position: absolute; inset: -5px; pointer-events: none;
+  background:
+    linear-gradient(var(--blue), var(--blue)) top left / 9px 9px,
+    linear-gradient(var(--blue), var(--blue)) top right / 9px 9px,
+    linear-gradient(var(--blue), var(--blue)) bottom left / 9px 9px,
+    linear-gradient(var(--blue), var(--blue)) bottom right / 9px 9px;
+  background-repeat: no-repeat;
+}
+
+.hero h1 {
+  font-size: clamp(38px, 5.4vw, 62px);
+  font-weight: 600; line-height: 1.12; letter-spacing: -.5px;
+  margin-bottom: 22px;
+}
+.hero .lead { color: var(--muted); font-size: 17px; max-width: 470px; margin-bottom: 36px; }
+
+.hero-actions { display: flex; align-items: center; gap: 30px; flex-wrap: wrap; margin-bottom: 44px; }
+.btn-solid {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--ink); color: var(--ink-text);
+  padding: 14px 22px; border-radius: 4px;
+  font-weight: 600; font-size: 16px; text-decoration: none;
+  box-shadow: 5px 5px 0 var(--blue);
+  transition: transform .15s, box-shadow .15s;
+}
+.btn-solid:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--blue); }
+.btn-solid svg { width: 16px; height: 16px; color: var(--blue); }
+.btn-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--text); font-weight: 600; text-decoration: none;
+  transition: color .15s;
+}
+.btn-link:hover { color: var(--blue); }
+.btn-link svg { width: 18px; height: 18px; }
+
+/* Ko'rsatkichlar qatori */
+.stats { display: flex; flex-wrap: wrap; }
+.stat {
+  display: flex; flex-direction: column;
+  padding: 2px 28px; border-left: 1.5px solid var(--ring);
+  text-decoration: none; color: inherit;
+}
+.stat:first-child { padding-left: 0; border-left: 0; }
+.stat strong {
+  font-family: var(--font-head); font-size: 30px; font-weight: 600;
+  line-height: 1.2; color: var(--text);
+}
+.stat span { color: var(--muted); font-size: 14px; }
+.stat-rating .stars { color: #f5b301; letter-spacing: 2px; font-size: 24px; line-height: 1.5; }
+.stat-rating span { transition: color .15s; }
+.stat-rating:hover span { color: var(--blue); }
+
+/* Rasm tomoni */
+.hero-visual {
+  position: relative; min-height: 480px;
+  display: flex; align-items: center; justify-content: flex-end;
+}
+.photo-frame {
+  position: relative; z-index: 2;
+  width: min(330px, 78%); aspect-ratio: 4 / 5;
+  margin-right: 24px;
+}
+.photo-frame::after {
+  content: ""; position: absolute; z-index: -1;
+  inset: 10px -10px -10px 10px;
+  background: var(--ink);
+}
+.photo {
+  position: relative; overflow: hidden;
+  width: 100%; height: 100%;
+  display: grid; place-items: center;
+  background: var(--blue); color: #fff;
+  font-family: var(--font-head); font-size: 80px; font-weight: 700;
+}
+.photo img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+}
+.stripe {
+  position: absolute; z-index: 1;
+  height: 58px; border-radius: 999px;
+  background: var(--blue);
+}
+.stripe-1 { width: 280px; left: 4%; bottom: 36px; transform: rotate(-24deg); }
+.stripe-2 { width: 260px; right: -90px; bottom: 110px; transform: rotate(-40deg); }
+.zigzag { position: absolute; z-index: 3; top: 30px; left: 6%; width: 62px; color: var(--ink); }
+
+.scroll-badge {
+  position: absolute; z-index: 3; left: -10px; bottom: 120px;
+  width: 104px; height: 104px; color: var(--text);
+}
+.scroll-badge .ring {
+  position: absolute; inset: 0;
+  animation: spin 16s linear infinite;
+}
+.scroll-badge text { font-size: 10.5px; letter-spacing: 1.2px; fill: currentColor; }
+.scroll-badge .arrow {
+  position: absolute; inset: 28px; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 1.5px solid currentColor; background: var(--bg);
+  transition: background .15s, color .15s;
+}
+.scroll-badge:hover .arrow { background: var(--blue); color: #fff; border-color: var(--blue); }
+.scroll-badge .arrow svg { width: 20px; height: 20px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== Yuguruvchi lenta ===== */
+.ticker { position: relative; padding: 34px 0; overflow: hidden; }
+.ticker-band {
+  position: absolute; left: -5%; right: -5%; top: 50%; height: 64px;
+  background: var(--blue);
+  transform: translateY(-50%) rotate(2deg);
+}
+.ticker-track {
+  position: relative; display: flex;
+  width: 110%; margin-left: -5%;
+  background: var(--band);
+  transform: rotate(-1.5deg);
+}
+.ticker-row {
+  display: flex; align-items: center; gap: 44px; flex-shrink: 0;
+  padding: 20px 44px 20px 0;
+  animation: ticker 42s linear infinite;
+}
+.ticker-row span {
+  font-family: var(--font-head); font-size: 26px; font-weight: 600;
+  color: #fff; white-space: nowrap;
+}
+.ticker-row b { color: var(--blue); font-size: 24px; font-weight: 400; }
+@keyframes ticker { to { transform: translateX(-100%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-badge .ring, .ticker-row { animation: none; }
+}
+
+/* ===== Tugmalar (Bog'lanish bloki) ===== */
+.buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 24px; border-radius: 12px;
+  font-weight: 600; font-size: 16px; text-decoration: none;
+  transition: transform .15s, background .15s, box-shadow .15s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn svg { width: 20px; height: 20px; }
+.btn-primary { background: var(--blue); color: #fff; box-shadow: 0 6px 18px rgba(74, 144, 226, .3); }
+.btn-primary:hover { background: var(--blue-dark); }
+.btn-outline { background: var(--surface); color: var(--blue); border: 1.5px solid var(--blue); }
+.btn-outline:hover { background: var(--blue-soft); }
+
+/* ===== Xizmatlar ===== */
+section { padding: 72px 0; }
+section.no-top { padding-top: 0; }
+h2 { font-size: 30px; font-weight: 600; text-align: center; margin-bottom: 8px; }
+.sub { text-align: center; color: var(--muted); margin-bottom: 40px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 28px; }
+/* "Bog'lanish" tugmasi uslubida: to'q hoshiya va ko'k soya */
+.card {
+  border: 1.5px solid var(--ink); border-radius: 4px;
+  padding: 28px 24px; background: var(--card);
+  box-shadow: 6px 6px 0 var(--blue);
+  transition: transform .15s, box-shadow .15s, background .25s;
+}
+.card:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--blue); }
+.icon {
+  width: 48px; height: 48px; border-radius: 4px;
+  background: var(--blue-soft); color: var(--blue);
+  display: grid; place-items: center; margin-bottom: 18px;
+}
+.icon svg { width: 24px; height: 24px; }
+.card h3 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+.card p { color: var(--muted); font-size: 15px; }
+
+/* ===== Bog'lanish ===== */
+.contact {
+  background: linear-gradient(135deg, var(--contact-from) 0%, var(--contact-to) 100%); color: #fff;
+  border-radius: 20px; padding: 48px 24px; text-align: center;
+}
+.contact h2 { color: #fff; margin-bottom: 24px; }
+.contact .btn-primary { background: #fff; color: #3a7bd0; box-shadow: none; }
+.contact .btn-primary:hover { background: #eaf3fd; }
+.contact .btn-outline { background: transparent; color: #fff; border-color: #fff; }
+.contact .btn-outline:hover { background: rgba(255, 255, 255, .12); }
+.contact .note { margin-top: 20px; font-size: 15px; color: rgba(255, 255, 255, .88); }
+
+footer { text-align: center; color: var(--muted); font-size: 14px; padding: 32px 0 40px; }
+
+/* ===== Planshet va telefon ===== */
+@media (max-width: 860px) {
+  .nav-links { display: none; }
+  .hero { padding-top: 24px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+  .hero-visual { min-height: 440px; justify-content: center; }
+  .photo-frame { width: min(290px, 70%); margin-right: 0; }
+  .stripe-1 { left: 0; }
+  .stripe-2 { right: -70px; }
+  .scroll-badge { left: 0; bottom: 30px; }
+}
+@media (max-width: 480px) {
+  .hero-actions { gap: 22px; }
+  .hero-visual { min-height: 380px; }
+  .scroll-badge { width: 88px; height: 88px; bottom: 10px; }
+  .scroll-badge .arrow { inset: 24px; }
+  .stripe { height: 46px; }
+  .stripe-1 { width: 220px; }
+  .stripe-2 { width: 200px; }
+  .ticker-row span { font-size: 21px; }
+  .logo { font-size: 17px; gap: 8px; white-space: nowrap; }
+  .logo-mark { width: 32px; height: 32px; font-size: 12px; }
+  .nav-right { gap: 22px; }
+  .lang-switch button { padding: 8px 9px; font-size: 12px; }
+  .theme-toggle { width: 36px; height: 36px; }
+  .stats { flex-wrap: nowrap; }
+  .stat { padding: 2px 12px; }
+  .stat strong { font-size: 21px; }
+  .stat span { font-size: 12.5px; white-space: nowrap; }
+  .stat-rating .stars { font-size: 15px; letter-spacing: 1px; line-height: 1.68; }
+}
