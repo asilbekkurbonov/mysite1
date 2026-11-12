@@ -84,9 +84,22 @@ h1, h2, h3, .logo { font-family: var(--font-head); }
 /* Kirill harflari Manrope'da biroz ingichka, shuni tenglashtiramiz */
 html[lang="ru"] h1, html[lang="ru"] h2, html[lang="ru"] h3 { font-weight: 700; }
 
-/* ===== Menyu ===== */
-.nav { padding: 22px 0; }
-.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+/* ===== Menyu: scroll qilganda yuqorida yopishib turadi ===== */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  padding: 22px 0;
+  background: var(--bg);
+  border-bottom: 1px solid transparent;
+  transition: padding .2s, border-color .2s, box-shadow .2s, background .25s;
+}
+.nav.scrolled {
+  padding: 12px 0;
+  border-bottom-color: var(--line);
+  box-shadow: 0 6px 18px var(--card-shadow);
+}
+.nav-inner { display: flex; align-items: center; gap: 28px; }
+/* Bo'lim sarlavhasi menyu ostida qolib ketmasin */
+section[id] { scroll-margin-top: 80px; }
 .logo {
   display: flex; align-items: center; gap: 10px;
   font-size: 21px; font-weight: 700; color: var(--text); text-decoration: none;
@@ -98,11 +111,11 @@ html[lang="ru"] h1, html[lang="ru"] h2, html[lang="ru"] h3 { font-weight: 700; }
   box-shadow: 3px 3px 0 var(--ink);
 }
 .nav-right { display: flex; align-items: center; gap: 28px; }
-.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; margin-left: auto; }
 .nav-links li { display: flex; }
 .nav-links a {
   display: inline-flex; align-items: center; gap: 8px;
-  line-height: 24px;
+  line-height: 24px; white-space: nowrap;
   color: var(--muted); text-decoration: none; font-size: 15px; transition: color .15s;
 }
 .nav-links a:hover { color: var(--text); }
@@ -291,6 +304,7 @@ html[lang="ru"] h1, html[lang="ru"] h2, html[lang="ru"] h3 { font-weight: 700; }
 @keyframes ticker { to { transform: translateX(-100%); } }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .scroll-badge .ring, .ticker-row { animation: none; }
 }
 
@@ -348,7 +362,16 @@ footer { text-align: center; color: var(--muted); font-size: 14px; padding: 32px
 
 /* ===== Planshet va telefon ===== */
 @media (max-width: 860px) {
-  .nav-links { display: none; }
+  /* Telefonda havolalar logotip ostida, barmoq bilan suriladigan qator */
+  .nav, .nav.scrolled { padding-bottom: 0; }
+  .nav-inner { flex-wrap: wrap; gap: 6px 12px; justify-content: space-between; }
+  .nav-links {
+    order: 3; width: 100%; margin: 0 -20px; padding: 6px 20px 10px;
+    flex: 0 0 calc(100% + 40px);
+    gap: 22px; overflow-x: auto; scrollbar-width: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  section[id] { scroll-margin-top: 112px; }
   .hero { padding-top: 24px; }
   .hero-grid { grid-template-columns: 1fr; gap: 24px; }
   .hero-visual { min-height: 440px; justify-content: center; }

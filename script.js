@@ -32,13 +32,49 @@ toggle.addEventListener('click', () => {
   saveTheme(next);
 });
 
+// ===== Menyu: soya va faol bo'lim =====
+const nav = document.querySelector('.nav');
+const navList = document.querySelector('.nav-links');
+const navLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')];
+const navSections = navLinks
+  .map(a => document.querySelector(a.getAttribute('href')))
+  .filter(Boolean);
+
+function updateNav() {
+  nav.classList.toggle('scrolled', window.scrollY > 8);
+
+  // Ekranning yuqori uchdan biridan o'tgan oxirgi bo'lim — faol bo'lim
+  const line = window.innerHeight / 3;
+  let current = null;
+  navSections.forEach(sec => {
+    if (sec.getBoundingClientRect().top <= line) current = sec;
+  });
+  // Sahifa oxiriga yetganda oxirgi bo'limni belgilaymiz
+  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+    current = navSections[navSections.length - 1] || current;
+  }
+
+  navLinks.forEach(a => {
+    const on = current && a.getAttribute('href') === '#' + current.id;
+    if (on && !a.classList.contains('active') && navList.scrollWidth > navList.clientWidth) {
+      // Telefonda faol havola ko'rinadigan joyga suriladi
+      navList.scrollTo({ left: a.offsetLeft - navList.offsetLeft - 20, behavior: 'smooth' });
+    }
+    a.classList.toggle('active', !!on);
+    if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+  });
+}
+
+window.addEventListener('scroll', updateNav, { passive: true });
+window.addEventListener('resize', updateNav);
+updateNav();
+
 // ===== Til: UZ | RU =====
 // O'zbekcha matn HTML ichida turadi, bu yerda faqat ruscha tarjima.
 const ru = {
   'title': 'Асилбек Курбонов — Научные услуги',
   'desc': 'Асилбек Курбонов — 4 года опыта. Помощь студентам и преподавателям со статьями, диссертациями и самостоятельными работами.',
   'name': 'Асилбек Курбонов',
-  'nav.home': 'Главная',
   'nav.services': 'Услуги',
   'nav.contact': 'Связаться',
   'theme': 'Тёмная / светлая тема',
@@ -100,6 +136,7 @@ function setLang(lang) {
   root.lang = lang;
   langButtons.forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
   try { localStorage.setItem('lang', lang); } catch (e) {}
+  updateNav(); // matn uzunligi o'zgaradi, faol bo'limni qayta tekshiramiz
 }
 
 langButtons.forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
